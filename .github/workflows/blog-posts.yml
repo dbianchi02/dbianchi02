@@ -1,0 +1,24 @@
+
+# Aggiorna nel README gli ultimi articoli del blog M365 Insight
+# Verifica l'URL del feed RSS del tuo blog (es. /feed, /rss.xml, /index.xml)
+name: Latest blog posts
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # ogni giorno
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gautamkrishnar/blog-post-workflow@v1
+        with:
+          feed_list: "https://m365insight.dbianchi.it/rss.xml"
+          max_post_count: 5
+          template: "- [$title]($url) <sub>· $date</sub> $newline"
+          date_format: "dd mmm yyyy"
